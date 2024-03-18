@@ -1,8 +1,8 @@
-import 'package:asmr_application/books.dart';
+import 'package:asmr_application/models/books.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import '../data.dart';
 import 'audio_file.dart';
-import 'colors.dart' as colors ;
 class AudioPage extends StatefulWidget {
   const AudioPage({super.key,required this.book,});
   final Books book ;
@@ -83,7 +83,7 @@ initState(){
             
             child: Container(
               decoration:  BoxDecoration(border: Border.all(color: Colors.white,width: 5),
-              color: colors.audioBlueBackground,borderRadius: BorderRadius.circular(8)),
+              color:audioBlueBackground,borderRadius: BorderRadius.circular(8)),
               child: CircleAvatar(
                 backgroundImage:AssetImage(widget.book.img),radius: 1,))),
         ],

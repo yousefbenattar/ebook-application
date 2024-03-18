@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'books.dart';
+import '../models/books.dart';
 
 class MyWidget extends StatefulWidget {
   const MyWidget({super.key,required this.book});

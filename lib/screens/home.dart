@@ -1,7 +1,7 @@
-import 'package:asmr_application/books.dart';
+import 'package:asmr_application/models/books.dart';
 import 'package:flutter/material.dart';
+import '../data.dart';
 import 'audio_page.dart';
-import 'colors.dart' as appcolors;
 import 'tab.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: appcolors.background,
+      color:background,
       child: SafeArea(
         child: Scaffold(
           body: Column(
