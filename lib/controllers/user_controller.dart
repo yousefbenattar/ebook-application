@@ -35,23 +35,47 @@ Future<ApiResponse> register(String name, String email, String password) async {
 
 Future<ApiResponse> login(String email, String password) async {
   ApiResponse apiresponse = ApiResponse();
-  try{
+  try {
     final response = await http.post(Uri.parse(loginURL),
-    headers: {"Accept" : "application/json"},
-    body: {"email" : email,"password":password});
+        headers: {"Accept": "application/json"},
+        body: {"email": email, "password": password});
+    switch (response.statusCode) {
+      case 200:
+        apiresponse.data = User.fromJson(jsonDecode(response.body));
+        break;
+      case 422:
+        final errors = jsonDecode(response.body)['erros'];
+        apiresponse.error = errors[errors.key.elementAt(0)[0]];
+        break;
+      case 403:
+        apiresponse.error = jsonDecode(response.body)['message'];
+      default:
+        apiresponse.error = somethingWentWrong;
+    }
+  } catch (e) {
+    apiresponse.error = serverError;
+  }
+  return apiresponse;
+}
+
+Future<ApiResponse> getUsers() async {
+  ApiResponse apiresponse = ApiResponse();
+  try{
+    final token = await getToken();
+    final response = await http.get(Uri.parse(userURL),headers: {
+      "Accept" : "application/json",
+      "Authorization" : "Bearer $token"
+    });
     switch(response.statusCode){
       case 200:
       apiresponse.data = User.fromJson(jsonDecode(response.body));
       break;
-      case 422:
-      final errors = jsonDecode(response.body)['erros'];
-      apiresponse.error = errors[errors.key.elementAt(0)[0]];
-      break;
       case 403:
-      apiresponse.error =jsonDecode(response.body)['message'];
+      apiresponse.error= unauthorized;
+      break;
       default:
       apiresponse.error = somethingWentWrong;
-    } 
+    }
   }
   catch(e){
     apiresponse.error = serverError;
